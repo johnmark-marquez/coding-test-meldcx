@@ -20,6 +20,13 @@ export default function Devices({handleLogin}) {
         history.push('/');
     }
 
+    const notifyBody = {
+        name: 'John Mark Marquez',
+        email: 'jhnmrkmrqz@gmail.com',
+        repoUrl: 'https://github.com/johnmark-marquez/coding-test-meldcx.git',
+        message: "Hello there! I'm JM. You can call me Jay Dawg if there's already a JM in your life! Awesome coding test by the way! I enjoyed doing it!"
+    }
+
     const notify = async () => {
         await fetch(`${env.API_URL}/notify`, {
             method: 'POST',
@@ -27,12 +34,7 @@ export default function Devices({handleLogin}) {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: {
-                name: 'John Mark Marquez',
-                email: 'jhnmrkmrqz@gmail.com',
-                repoUrl: 'https://github.com/johnmark-marquez/coding-test-meldcx.git',
-                message: "Hello there! I'm JM. You can call me Jay Dawg if there's already a JM in your life! Awesome coding test by the way! I enjoyed doing it!"
-            }
+            body: JSON.stringify(notifyBody) 
         }).then(response => response.json()).then(data => console.log('Data', data));
     }
 
@@ -67,7 +69,7 @@ export default function Devices({handleLogin}) {
             </div>
             <div className="footer">
                 <div className="footer-body">
-                    <button id="notify">Notify</button>
+                    <button id="notify" onClick={notify}>Notify</button>
                     <button id="logOut" onClick={LogOut}>Logout</button>
                 </div>
             </div>
