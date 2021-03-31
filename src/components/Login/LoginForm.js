@@ -31,9 +31,10 @@ const userLogin = async (credentials) => {
     return response;
 }
 
-export default function LoginForm({setToken}) {
+export default function LoginForm({setToken, handleLogin}) {
     // Initial details for the user
     const [details, setDetails] = useState({ email: "", password: ""});
+    const [error, setError] = useState({hasError: false});
     const history = useHistory();
 
     // Adding a submit handler to send the user details to the API
@@ -47,7 +48,10 @@ export default function LoginForm({setToken}) {
         // Only setToken if response returns status 200
         if (token.status === 200) {
             setToken(token.payload);
+            handleLogin(true);
             history.push('/devices');
+        } else {
+            setError({hasError: true, status: token.status, message: token.payload});
         }
     }
 
@@ -55,7 +59,7 @@ export default function LoginForm({setToken}) {
         <form onSubmit={handleSubmit}>
             <div className="form-inner">
                 <center><h2>Login</h2></center>
-                {/* { !hasError ? "" : `<p>${errorMessage}</p>`} */}
+                { !error.hasError ? "" : error.message}
                 <div className="form-group">
                     <div className="input-group">
                         <FontAwesomeIcon icon={faEnvelope} className="icons"/>
@@ -76,4 +80,5 @@ export default function LoginForm({setToken}) {
 
 LoginForm.propTypes = {
     setToken: PropTypes.func.isRequired,
+    handleLogin: PropTypes.func.isRequired,
 };

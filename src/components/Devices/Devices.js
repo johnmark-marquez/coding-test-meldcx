@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import env from 'react-dotenv';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import useInterval from './DevicePolling';
 import useToken from '../App/useToken';
 import './devices.css';
 
-export default function Devices() {
+export default function Devices({handleLogin}) {
     // Adding an initial count of devices of zero
     const [dev, setDevices] = useState({ count: 0, devices: []});
     const { clearToken, token } = useToken();
     const history = useHistory();
 
-    console.log('Token', token);
-
-
     // TODO: Fix logout routing
     const LogOut = () => {
         clearToken();
+        handleLogin(false);
         history.push('/');
     }
 
@@ -31,11 +30,10 @@ export default function Devices() {
             body: {
                 name: 'John Mark Marquez',
                 email: 'jhnmrkmrqz@gmail.com',
-                repoUrl: '',
+                repoUrl: 'https://github.com/johnmark-marquez/coding-test-meldcx.git',
                 message: "Hello there! I'm JM. You can call me Jay Dawg if there's already a JM in your life! Awesome coding test by the way! I enjoyed doing it!"
             }
-
-        });
+        }).then(response => response.json()).then(data => console.log('Data', data));
     }
 
     useInterval(async () => {
@@ -64,7 +62,7 @@ export default function Devices() {
                 { /* Mapping device array so that we don't get identical keys when creating the circles*/}
                 {devicesArray.map( i => (
                 <div className="circle-container">
-                    <div key={(i.id)} className="circles"><p>{i.id}</p></div>
+                    <div key={(i.id)} className="circles"></div>
                 </div>))}
             </div>
             <div className="footer">
@@ -75,4 +73,8 @@ export default function Devices() {
             </div>
         </div>
     )
+}
+
+Devices.propTypes = {
+    handleLogin: PropTypes.func.isRequired
 }

@@ -1,47 +1,28 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 // Import Components
 import LoginForm from './components/Login/LoginForm';
 import Devices from './components/Devices/Devices';
 import useToken from './components/App/useToken';
+import LogStorage from './components/App/loginStorage';
 
 function App() {
-  const { token, setToken } = useToken();
+  const { setToken } = useToken();
+  const { isLog, setLog } = LogStorage();
 
-  // If token does not exist, user is redirected to the login form
-  // TODO: Add error handler
-  if (!token) {
-    return (
-      <div className="App">
-        <BrowserRouter>
-          <Switch>
-            <Route path="/">
-              <LoginForm setToken={setToken}/>
-            </Route>
-            <Route path="/devices">
-              <Devices/>
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </div>
-    );
-  }
-  // Return if token is found
+  // If isLog false, user is redirected to login
+  const handleLogin = (isLog) => setLog(isLog);
   return (
       <BrowserRouter>
         <Switch>
-          <Route path="/">
-            <Devices/>
-          </Route>
-          <Route path="/login">
-            <LoginForm setToken={setToken}/>
-          </Route>
+          { (isLog) ?  <Route path="/devices" render={() => <Devices handleLogin={handleLogin}/>}/> : <Route path="/"
+            render={() => <div className="App"><LoginForm setToken={setToken} handleLogin={handleLogin}/></div>}/> 
+         }
         </Switch>
       </BrowserRouter>
   );
-  
 }
 
 export default App;
