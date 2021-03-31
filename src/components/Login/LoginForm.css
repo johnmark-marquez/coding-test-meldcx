@@ -1,0 +1,63 @@
+.App {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(39, 50, 56);
+} 
+
+form {
+    display: block;
+    position: relative;
+}
+
+form:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: 1;
+}
+
+form .form-inner {
+    position: relative;
+    display: block;
+    background-color: #FFFFFF;
+    padding: 30px;
+    z-index: 2;
+}
+
+form .form-inner h2 {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+form .form-inner .form-group {
+    display: block;
+    width: 300px;
+}
+
+form .form-inner .form-group .input-group {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: rgb(236, 239, 241);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+form .form-inner .form-group .icons {
+    margin-right: 10px;
+}
+
+form .form-inner input[type="submit"] {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 30px;
+    background-color: rgb(19, 121, 187);
+    color: #FFF;
+}
